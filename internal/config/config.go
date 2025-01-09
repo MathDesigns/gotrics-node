@@ -8,6 +8,7 @@ import (
 )
 
 type Config struct {
+	NodeID        string `yaml:"node_id"`
 	ServerAddress string `yaml:"server_address"`
 }
 
