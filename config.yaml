@@ -1,4 +1,5 @@
-server_port: "8080"
-db_path: "./metrics.db"
-server_address: "http://localhost:8080"
-node_id: "blackout"
+server_url: "http://127.0.0.1:8080"
+
+poll_interval: "5s"
+
+auth_token: "test123"

@@ -1,32 +1,31 @@
 package config
 
 import (
-	"log"
 	"os"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
-	NodeID        string `yaml:"node_id"`
-	ServerAddress string `yaml:"server_address"`
+	ServerURL    string        `yaml:"server_url"`
+	PollInterval time.Duration `yaml:"poll_interval"`
+	AuthToken    string        `yaml:"auth_token"`
 }
 
 func LoadConfig(path string) (*Config, error) {
-	file, err := os.Open(path)
+	cfg := &Config{
+		PollInterval: 10 * time.Second,
+	}
+
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			log.Printf(err.Error())
-		}
-	}(file)
 
-	var cfg Config
-	if err := yaml.NewDecoder(file).Decode(&cfg); err != nil {
+	if err := yaml.Unmarshal(data, cfg); err != nil {
 		return nil, err
 	}
-	return &cfg, nil
+
+	return cfg, nil
 }
